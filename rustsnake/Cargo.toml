@@ -1,0 +1,11 @@
+[package]
+name = "rustsnake"
+version = "0.1.0"
+edition = "2021"
+
+[[first]]
+name = "first"
+
+[dependencies]
+ncurses = "6.0.1"
+rand = "0.8"
