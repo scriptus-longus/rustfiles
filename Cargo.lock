@@ -115,8 +115,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "rustasteroids"
+name = "rustinvaders"
 version = "0.1.0"
+dependencies = [
+ "ncurses",
+]
 
 [[package]]
 name = "rustsnake"
