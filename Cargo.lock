@@ -115,6 +115,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "rustasteroids"
+version = "0.1.0"
+
+[[package]]
 name = "rustsnake"
 version = "0.1.0"
 dependencies = [
