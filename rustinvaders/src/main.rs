@@ -10,7 +10,20 @@ pub struct Player {
   y: i32
 }
 
+pub struct Bullet {
+  x: i32,
+  y: i32,
+}
+
+impl Bullet {
+  pub fn update(&mut self) {
+    self.y -= 1;
+  }
+}
+
 fn main() {
+
+  let mut bullets = Vec::<Bullet>::new();  
 
   initscr();
   
@@ -46,12 +59,22 @@ fn main() {
       }
       b' ' =>
       {
-        mvprintw(0,0,"pew").unwrap();
+        bullets.push(Bullet {x: player.x, y: player.y-1});
       }
       _ => {}
     } 
 
+
+    //mvprintw(0,0, &format!("{}", bullets.len())).unwrap();
     mvprintw(player.y, player.x, "#").unwrap();
+
+    for bullet in bullets.iter_mut()  {
+        bullet.update();
+        mvprintw(bullet.y, bullet.x, "o").unwrap();
+    }
+
+    bullets.retain(|bullet| bullet.y > 0);
+
 
     refresh();
     napms(80);
