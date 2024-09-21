@@ -5,6 +5,11 @@ extern crate ncurses;
 
 use ncurses::*;
 
+enum Dir {
+  dirLEFT,
+  dirRIGHT
+}
+
 pub struct Player {
   x: i32,
   y: i32
@@ -12,12 +17,28 @@ pub struct Player {
 
 pub struct Bullet {
   x: i32,
+  y: i32
+}
+
+pub struct Enemy {
+  x: i32,
   y: i32,
+
+  dir: Dir 
 }
 
 impl Bullet {
   pub fn update(&mut self) {
     self.y -= 1;
+  }
+}
+
+impl Enemy {
+  pub fn update(&mut self) {
+    match self.dir {
+      Dir::dirLEFT => { self.x -= 1; }
+      Dir::dirRIGHT => { self.x += 1; }
+    }
   }
 }
 
@@ -38,7 +59,7 @@ fn main() {
   getmaxyx(stdscr(), &mut height, &mut width);
 
   let mut player = Player {x: width/2, y: height/2};
-
+  let invaders = vec![ Enemy {x: width/2, y: height/3, dir: Dir::dirRIGHT} ];
 
   let mut ch = 0u8;
 
@@ -66,15 +87,20 @@ fn main() {
 
 
     //mvprintw(0,0, &format!("{}", bullets.len())).unwrap();
+    //mvprintw(enemy.x, enemy.y, "@");
+    for invader in invaders.iter() {
+      mvprintw(invader.y, invader.x, "@").unwrap();
+    }
     mvprintw(player.y, player.x, "#").unwrap();
 
+    //let keep = bool[invaders.size()];
+
     for bullet in bullets.iter_mut()  {
-        bullet.update();
+        bullet.update(); 
         mvprintw(bullet.y, bullet.x, "o").unwrap();
     }
 
     bullets.retain(|bullet| bullet.y > 0);
-
 
     refresh();
     napms(80);
